@@ -19,8 +19,8 @@ library ModMath {
     /// @param q An odd prime
     /// @param start An odd integer smaller than `(p - 1) * (q - 1)` to start the search from
     /// @return A pair of inverses in the multiplicative group of integers modulo `(p - 1) * (q - 1)`
-    function findInverse(uint128 p, uint128 q, uint128 start) internal pure returns (Inverse memory) { unchecked {
-        uint256 modulus = uint256(p - 1) * uint256(q - 1);
+    function findInverse(uint256 p, uint256 q, uint256 start) internal pure returns (Inverse memory) { unchecked {
+        uint256 modulus = _mul(p - 1, q - 1);
         for (uint256 e = start; e < modulus; e += 2) {
             if (_gcd(modulus, e) == 1) {
                 uint256 d = _inverse(modulus, e);
@@ -34,10 +34,10 @@ library ModMath {
     /// @param q A prime which is congruent to 3 modulo 4
     /// @param start An integer smaller than `p * q` to start the search from
     /// @return A square and its 4 roots in the multiplicative group of integers modulo `p * q`
-    function findSquare(uint128 p, uint128 q, uint128 start) internal pure returns (Square memory) { unchecked {
-        uint256 modulus = uint256(p) * uint256(q);
-        uint256 pDivBy4Ceil = (uint256(p) + 1) / 4;
-        uint256 qDivBy4Ceil = (uint256(q) + 1) / 4;
+    function findSquare(uint256 p, uint256 q, uint256 start) internal pure returns (Square memory) { unchecked {
+        uint256 modulus = _mul(p, q);
+        uint256 pDivBy4Ceil = p / 4 + 1;
+        uint256 qDivBy4Ceil = q / 4 + 1;
         for (uint256 s = start; s < modulus; s += 1) {
             if (_gcd(modulus, s) == 1 && _inQR(s, p, q)) {
                 uint256 sp = _powMod(s, pDivBy4Ceil, p);
@@ -51,6 +51,10 @@ library ModMath {
         }
         return Square(0, 0, 0, 0, 0);
     }}
+
+    function _mul(uint256 a, uint256 b) private pure returns (uint256) {
+        return a * b;
+    }
 
     function _gcd(uint256 a, uint256 b) private pure returns (uint256) { unchecked {
         uint256 c = a % b;
