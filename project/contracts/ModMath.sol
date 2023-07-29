@@ -77,16 +77,15 @@ library ModMath {
         return _powMod(y, p / 2, p) == 1;
     }}
 
-
     function _inQR(uint256 y, uint256 p, uint256 q) private pure returns (bool) { unchecked {
         return _inQR(y, p) && _inQR(y, q);
     }}
 
-    function _map(uint256 u, uint256 v, uint256 p, uint256 q) private pure returns (uint256) { unchecked {
+    function _map(uint256 u, uint256 v, uint256 p, uint256 q) private pure returns (uint256) {
         uint256 a = q * _inverse(p, q);
         uint256 b = p * _inverse(q, p);
         return addmod(u * a, v * b, p * q);
-    }}
+    }
 
     function _inverse(uint256 n, uint256 a) private pure returns (uint256) { unchecked {
         uint256 y1 = 0;
