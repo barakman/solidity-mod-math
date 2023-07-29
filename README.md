@@ -11,7 +11,7 @@
 - Returns a pair of inverses in the multiplicative group of integers modulo `(p - 1) * (q - 1)`
 
 ## Function `findSquare`:
-- Takes input `p`: an odd prime
-- Takes input `q`: an odd prime
+- Takes input `p`: a prime which is congruent to 3 modulo 4
+- Takes input `q`: a prime which is congruent to 3 modulo 4
 - Takes input `start`: an integer smaller than `p * q` to start the search from
 - Returns a square and its 4 roots in the multiplicative group of integers modulo `p * q`

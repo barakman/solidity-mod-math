@@ -30,8 +30,8 @@ library ModMath {
         return Inverse(0, 0);
     }
 
-    /// @param p An odd prime
-    /// @param q An odd prime
+    /// @param p A prime which is congruent to 3 modulo 4
+    /// @param q A prime which is congruent to 3 modulo 4
     /// @param start An integer smaller than `p * q` to start the search from
     /// @return A square and its 4 roots in the multiplicative group of integers modulo `p * q`
     function findSquare(uint256 p, uint256 q, uint256 start) internal pure returns (Square memory) {
