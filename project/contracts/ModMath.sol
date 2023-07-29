@@ -87,24 +87,16 @@ library ModMath {
     }
 
     function _inverse(uint256 n, uint256 a) private pure returns (uint256) {
-        int256 x1 = 1;
-        int256 x2 = 0;
-        int256 y1 = 0;
-        int256 y2 = 1;
+        uint256 y1 = 0;
+        uint256 y2 = 1;
         uint256 r1 = n;
         uint256 r2 = a;
         while (r2 != 0) {
-            uint256 r3 = r1 % r2;
-            uint256 q3 = r1 / r2;
-            int256 x3 = x1 - x2 * int256(q3);
-            int256 y3 = y1 - y2 * int256(q3);
-            x1 = x2;
-            x2 = x3;
-            y1 = y2;
-            y2 = y3;
-            r1 = r2;
-            r2 = r3;
+            uint256 t1 = r1 / r2;
+            uint256 t2 = addmod(y1, (n - mulmod(t1, y2, n)), n);
+            (y1, y2) = (y2, t2);
+            (r1, r2) = (r2, r1 - t1 * r2);
         }
-        return y1 >= 0 ? uint256(y1) : n - uint256(-y1);
+        return y1;
     }
 }
