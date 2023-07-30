@@ -38,8 +38,8 @@ library ModMath {
         uint256 modulus = _mul(p, q);
         uint256 pDiv4Ceil = p / 4 + 1;
         uint256 qDiv4Ceil = q / 4 + 1;
-        uint256 qMulInvPQ = _mul(q, _inverse(p, q));
         uint256 pMulInvQP = _mul(p, _inverse(q, p));
+        uint256 qMulInvPQ = _mul(q, _inverse(p, q));
         for (uint256 s = start; s < modulus; s += 1) {
             if (_gcd(modulus, s) == 1 && _powMod(s, p / 2, p) == 1 && _powMod(s, q / 2, q) == 1) {
                 uint256 sp = _powMod(s, pDiv4Ceil, p);
