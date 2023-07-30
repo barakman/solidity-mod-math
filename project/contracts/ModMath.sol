@@ -39,9 +39,9 @@ library ModMath {
         uint256 pDivTwo = p / 2;
         uint256 qDivTwo = q / 2;
         for (uint256 s = start; s < modulus; s += 1) {
-            if (_gcd(modulus, s) == 1 && _powMod(s, pDivTwo, p) == 1 && _powMod(s, qDivTwo, q) == 1) {
-                uint256 sp = _powMod(s, p / 4 + 1, p);
-                uint256 sq = _powMod(s, q / 4 + 1, q);
+            if (_gcd(modulus, s) == 1 && _powmod(s, pDivTwo, p) == 1 && _powmod(s, qDivTwo, q) == 1) {
+                uint256 sp = _powmod(s, p / 4 + 1, p);
+                uint256 sq = _powmod(s, q / 4 + 1, q);
                 uint256 tp = _mul(_inverse(p, q), q);
                 uint256 tq = _mul(_inverse(q, p), p);
                 uint256 up = _mul(0 + sp, tp);
@@ -72,7 +72,7 @@ library ModMath {
         return b;
     }}
 
-    function _powMod(uint256 x, uint256 e, uint256 n) private pure returns (uint256) { unchecked {
+    function _powmod(uint256 x, uint256 e, uint256 n) private pure returns (uint256) { unchecked {
         uint256 y = 1;
         while (e > 0) {
             if ((e & 1) == 1)
