@@ -42,14 +42,16 @@ library ModMath {
             if (_gcd(modulus, s) == 1 && _powMod(s, pDivTwo, p) == 1 && _powMod(s, qDivTwo, q) == 1) {
                 uint256 sp = _powMod(s, p / 4 + 1, p);
                 uint256 sq = _powMod(s, q / 4 + 1, q);
-                uint256 tp = p - sp;
-                uint256 tq = q - sq;
-                uint256 up = _mul(_inverse(p, q), q);
-                uint256 uq = _mul(_inverse(q, p), p);
-                uint256 r1 = _mapped(sp, sq, up, uq, modulus);
-                uint256 r2 = _mapped(sp, tq, up, uq, modulus);
-                uint256 r3 = _mapped(tp, sq, up, uq, modulus);
-                uint256 r4 = _mapped(tp, tq, up, uq, modulus);
+                uint256 tp = _mul(_inverse(p, q), q);
+                uint256 tq = _mul(_inverse(q, p), p);
+                uint256 up = _mul(0 + sp, tp);
+                uint256 uq = _mul(0 + sq, tq);
+                uint256 vp = _mul(p - sp, tp);
+                uint256 vq = _mul(q - sq, tq);
+                uint256 r1 = addmod(up, uq, modulus);
+                uint256 r2 = addmod(up, vq, modulus);
+                uint256 r3 = addmod(vp, uq, modulus);
+                uint256 r4 = addmod(vp, vq, modulus);
                 return Square(s, r1, r2, r3, r4);
             }
         }
@@ -68,10 +70,6 @@ library ModMath {
             c = a % b;
         }
         return b;
-    }}
-
-    function _mapped(uint256 a, uint256 b, uint256 c, uint256 d, uint256 n) private pure returns (uint256) { unchecked {
-        return addmod(_mul(a, c), _mul(b, d), n);
     }}
 
     function _powMod(uint256 x, uint256 e, uint256 n) private pure returns (uint256) { unchecked {
