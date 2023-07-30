@@ -15,26 +15,26 @@ struct Square {
 }
 
 library ModMath {
-    /// @param p An odd prime
-    /// @param q An odd prime
-    /// @param start An odd integer smaller than `(p - 1) * (q - 1)` to start the search from
-    /// @return A pair of inverses in the multiplicative group of integers modulo `(p - 1) * (q - 1)`
-    function findInverse(uint256 p, uint256 q, uint256 start) internal pure returns (Inverse memory) { unchecked {
+    /// @param p an odd prime
+    /// @param q an odd prime
+    /// @param start an odd integer smaller than `(p - 1) * (q - 1)` to start the search from
+    /// @return result a pair of inverses in the multiplicative group of integers modulo `(p - 1) * (q - 1)`
+    function findInverse(uint256 p, uint256 q, uint256 start) internal pure returns (Inverse memory result) { unchecked {
         uint256 modulus = _mul(p - 1, q - 1);
         for (uint256 e = start; e < modulus; e += 2) {
             if (_gcd(modulus, e) == 1) {
-                uint256 d = _inverse(modulus, e);
-                return Inverse(e, d);
+                result.d = _inverse(modulus, e);
+                result.e = e;
+                break;
             }
         }
-        return Inverse(0, 0);
     }}
 
-    /// @param p A prime which is congruent to 3 modulo 4
-    /// @param q A prime which is congruent to 3 modulo 4
-    /// @param start An integer smaller than `p * q` to start the search from
-    /// @return A square and its 4 roots in the multiplicative group of integers modulo `p * q`
-    function findSquare(uint256 p, uint256 q, uint256 start) internal pure returns (Square memory) { unchecked {
+    /// @param p a prime which is congruent to 3 modulo 4
+    /// @param q a prime which is congruent to 3 modulo 4
+    /// @param start an integer smaller than `p * q` to start the search from
+    /// @return result a square and its 4 roots in the multiplicative group of integers modulo `p * q`
+    function findSquare(uint256 p, uint256 q, uint256 start) internal pure returns (Square memory result) { unchecked {
         uint256 modulus = _mul(p, q);
         uint256 pDivTwo = p / 2;
         uint256 qDivTwo = q / 2;
@@ -48,14 +48,14 @@ library ModMath {
                 uint256 uq = _mul(0 + sq, tq);
                 uint256 vp = _mul(p - sp, tp);
                 uint256 vq = _mul(q - sq, tq);
-                uint256 r1 = addmod(up, uq, modulus);
-                uint256 r2 = addmod(up, vq, modulus);
-                uint256 r3 = addmod(vp, uq, modulus);
-                uint256 r4 = addmod(vp, vq, modulus);
-                return Square(s, r1, r2, r3, r4);
+                result.r1 = addmod(up, uq, modulus);
+                result.r2 = addmod(up, vq, modulus);
+                result.r3 = addmod(vp, uq, modulus);
+                result.r4 = addmod(vp, vq, modulus);
+                result.s = s;
+                break;
             }
         }
-        return Square(0, 0, 0, 0, 0);
     }}
 
     function _mul(uint256 a, uint256 b) private pure returns (uint256) {
