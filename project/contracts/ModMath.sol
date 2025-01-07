@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: SEE LICENSE IN LICENSE
-pragma solidity 0.8.21;
+pragma solidity 0.8.28;
 
 struct Inverse {
     uint256 e;
@@ -90,7 +90,7 @@ library ModMath {
         uint256 r2 = x;
         while (r2 != 0) {
             uint256 t1 = r1 / r2;
-            uint256 t2 = addmod(y1, (n - mulmod(t1, y2, n)), n);
+            uint256 t2 = addmod(y1, n - mulmod(t1, y2, n), n);
             (y1, y2) = (y2, t2);
             (r1, r2) = (r2, r1 - t1 * r2);
         }
